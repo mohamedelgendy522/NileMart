@@ -1,8 +1,11 @@
 package org.route.repository;
 
+import jakarta.annotation.PostConstruct;
 import org.route.common.Money;
 import org.route.model.Category;
 import org.route.model.Product;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,10 +13,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class InMemoryProductRepository implements ProductRepository {
 
     private final Map<String, Product> store = new ConcurrentHashMap<>();
 
+    @PostConstruct
     public void loadSeedProducts() {
         save(Product.builder()
                 .sku("PH-X5-128")

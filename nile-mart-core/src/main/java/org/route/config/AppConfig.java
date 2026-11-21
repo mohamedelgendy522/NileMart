@@ -6,7 +6,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 
 @Configuration
-@ComponentScan
+@ComponentScan("org.route")
 //@ImportResource("/beans.xml")
 @PropertySource("/application.properties")
 @EnableAspectJAutoProxy

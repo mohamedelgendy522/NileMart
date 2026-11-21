@@ -41,22 +41,11 @@ public class Main {
 
         ProductService productService = context.getBean(ProductService.class);
 
-        System.out.println(productService);
-
-        Product product = Product.builder()
-                .price(BigDecimal.valueOf(100))
-                .build();
-
-        System.out.println(productService.getPrice("PH-SAM-S25", 2));
-
-        PricingService pricing = new StandardPricingService();
-        ProductService service = new ProductService(new InMemoryProductRepository(), pricing);
-        System.out.println(service.getPrice("ACC-CHG-20W", 2));
         Map<Category, List<Product>> groupedProducts = productService.groupByCategory();
         for(Map.Entry<Category, List<Product>> entry : groupedProducts.entrySet()) {
             System.out.println(entry.getKey());
         }
-        List<Product> products = service.search(p -> p.getStockQuantity() == 0);
+        List<Product> products = productService.search(p -> p.getStockQuantity() == 0);
         for(Product p : products) {
             System.out.println(p);
         }
