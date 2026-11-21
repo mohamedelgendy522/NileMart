@@ -1,20 +1,22 @@
-package org.route;
+package org.route.model;
 
 import lombok.*;
 
 import java.math.BigDecimal;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class Product {
     private String name;
+    @EqualsAndHashCode.Include
     private String sku;
     private BigDecimal price;
-    private String category;
+    private Category category;
     private boolean isActive;
-   }
+    @Setter
+    private int stockQuantity;
+}

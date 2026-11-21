@@ -1,17 +1,16 @@
-package org.route;
+package org.route.aspect;
 
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
 public class ExecutionLog {
 
-    @Around("execution(* org.route.ProductService.*(..)))")
+    @Around("execution(* org.route.service.ProductService.*(..)))")
     public Object executeLog(ProceedingJoinPoint jp) throws Throwable {
         String op = jp.getSignature().toShortString();
         System.out.println(op + " Started");
@@ -26,7 +25,7 @@ public class ExecutionLog {
         }
     }
 
-//    @Before("execution(* org.route.ProductService.*(..))")
+//    @Before("execution(* org.route.service.ProductService.*(..))")
 //    public void executeBefore() {
 //        System.out.println("before");
 //    }
