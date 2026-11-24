@@ -4,6 +4,8 @@ package org.route.config;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
+import java.time.Clock;
+
 
 @Configuration
 @ComponentScan("org.route")
@@ -15,6 +17,11 @@ public class AppConfig {
     @Bean
     PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public java.time.Clock clock() {
+        return Clock.systemDefaultZone();
     }
 
 //    @Bean

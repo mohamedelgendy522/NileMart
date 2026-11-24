@@ -92,4 +92,20 @@ public class ShoppingCart {
         }
         return new CartView(cardNumber, customer, lines, itemCount, subTotal(), isEmpty());
     }
+
+    public int getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(int cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }
