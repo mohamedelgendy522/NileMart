@@ -29,7 +29,44 @@ public class Main {
 //
 //        System.out.println(p);
 
-        var context = new AnnotationConfigApplicationContext(AppConfig.class);
+        try (var context = new AnnotationConfigApplicationContext(AppConfig.class)) {
+            ProductService productService = context.getBean(ProductService.class);
+
+            Map<Category, List<Product>> groupedProducts = productService.groupByCategory();
+            for(Map.Entry<Category, List<Product>> entry : groupedProducts.entrySet()) {
+                System.out.println(entry.getKey());
+            }
+            List<Product> products = productService.search(p -> p.getStockQuantity() == 0);
+            for(Product p : products) {
+                System.out.println(p);
+            }
+
+            Product a = Product.builder()
+                    .sku("PH-X5-128")
+                    .name("Smartphone X5")
+                    .category(Category.ELECTRONICS)
+                    .price(Money.of("16000.00"))
+                    .stockQuantity(12)
+                    .build();
+
+            Product b = Product.builder()
+                    .sku("PH-X5-128")
+                    .name("Different Name")
+                    .category(Category.BOOKS)
+                    .price(Money.of("500.00"))
+                    .stockQuantity(1)
+                    .build();
+
+            Set<Product> set = new HashSet<>();
+            set.add(a);
+            set.add(b);
+
+            System.out.println("a.equals(b): " + a.equals(b));
+            System.out.println("HashSet size: " + set.size());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 //        var context2 = new AnnotationConfigApplicationContext(AppConfig.class);
 
 //        StandardPricingService standard = context.getBean(StandardPricingService.class);
@@ -38,39 +75,5 @@ public class Main {
 //        System.out.println(standard == standard2);
 //        ProductService p = context.getBean(ProductService.class);
 //        System.out.println(standard);
-
-        ProductService productService = context.getBean(ProductService.class);
-
-        Map<Category, List<Product>> groupedProducts = productService.groupByCategory();
-        for(Map.Entry<Category, List<Product>> entry : groupedProducts.entrySet()) {
-            System.out.println(entry.getKey());
-        }
-        List<Product> products = productService.search(p -> p.getStockQuantity() == 0);
-        for(Product p : products) {
-            System.out.println(p);
-        }
-
-        Product a = Product.builder()
-                .sku("PH-X5-128")
-                .name("Smartphone X5")
-                .category(Category.ELECTRONICS)
-                .price(Money.of("16000.00"))
-                .stockQuantity(12)
-                .build();
-
-        Product b = Product.builder()
-                .sku("PH-X5-128")
-                .name("Different Name")
-                .category(Category.BOOKS)
-                .price(Money.of("500.00"))
-                .stockQuantity(1)
-                .build();
-
-        Set<Product> set = new HashSet<>();
-        set.add(a);
-        set.add(b);
-
-        System.out.println("a.equals(b): " + a.equals(b));
-        System.out.println("HashSet size: " + set.size());
     }
 }
