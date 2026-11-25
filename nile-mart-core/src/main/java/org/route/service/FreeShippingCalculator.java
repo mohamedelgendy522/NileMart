@@ -1,5 +1,6 @@
 package org.route.service;
 
+import org.route.common.Money;
 import org.route.model.Governorate;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,6 @@ import java.math.BigDecimal;
 public class FreeShippingCalculator implements ShippingCalculator{
     @Override
     public BigDecimal calculate(Governorate g) {
-        return BigDecimal.ZERO;
+        return Money.ZERO;
     }
 }

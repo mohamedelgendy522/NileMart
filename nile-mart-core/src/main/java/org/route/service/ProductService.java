@@ -26,7 +26,7 @@ public class ProductService {
         Product product = repository.findBySku(sku)
                 .filter(Product::isActive)
                 .orElseThrow(() -> new NotFoundException("Product isn't available."));
-        return product.getPrice().multiply(BigDecimal.valueOf(qty));
+        return pricingService.getPrice(product, qty);
     }
 
     public List<Product> getAllProducts() {

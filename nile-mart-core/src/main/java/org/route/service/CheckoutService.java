@@ -2,6 +2,7 @@ package org.route.service;
 
 import lombok.RequiredArgsConstructor;
 import org.route.cart.ShoppingCart;
+import org.route.common.Money;
 import org.route.common.OutOfStockException;
 import org.route.common.StoreException;
 import org.route.model.*;
@@ -71,7 +72,7 @@ public class CheckoutService {
         orderRegistry.save(order);
 
         for (NotificationSender sender : notificationSenders) {
-            sender.send(cart.getCustomer(),"Order placed Order placed successfully");
+            sender.send(cart.getCustomer(), "Order " + order.orderNumber() + " confirmed. Total " + Money.format(order.total()) + " EGP");
         }
 
         cart.clear();

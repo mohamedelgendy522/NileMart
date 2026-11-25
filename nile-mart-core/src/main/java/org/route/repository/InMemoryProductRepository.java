@@ -44,7 +44,7 @@ public class InMemoryProductRepository implements ProductRepository {
                 BigDecimal price = new BigDecimal(parts[3].trim());
                 int stock = Integer.parseInt(parts[4].trim());
 
-                Product product = new Product(sku, name, price,category, true, stock);
+                Product product = new Product(name, sku, price,category, true, stock);
                 save(product);
             }
         } catch (IOException e) {

@@ -1,9 +1,7 @@
 package org.route.cart;
 
 import lombok.Getter;
-import org.route.common.Money;
-import org.route.common.OutOfStockException;
-import org.route.common.StoreException;
+import org.route.common.*;
 import org.route.model.Customer;
 import org.route.model.Product;
 import org.route.service.ProductService;
@@ -31,7 +29,7 @@ public class ShoppingCart {
         this.items = new LinkedHashMap<>();
     }
     public void open(int number , Customer customer) {
-        if(customer!=null){
+        if(this.customer != null){
             throw new IllegalStateException("IT Already has customer");
         }
         this.cardNumber = number;
@@ -41,26 +39,23 @@ public class ShoppingCart {
         if(qty <= 0){
             throw new StoreException("Quantity should be more than 0");
         }
-        Optional<Product> product = productService.getProductBySku(Sku);
-        if(product.isEmpty()){
-            throw new StoreException("Product not found");
-        }
-        else{
-            if(product.get().getStockQuantity() != 0){
+        Product product = Check.found(productService.getProductBySku(Sku),
+                () -> new NotFoundException("Product " + Sku + " was not found."));
+        if(product.getStockQuantity() != 0){
                 int newQty = items.getOrDefault(Sku,0) + qty;
                 if(newQty > maxQuantityPerProduct){
-                    throw new StoreException("You can add at most " + maxQuantityPerProduct + " of " + product.get().getName());
+                    throw new StoreException("You can add at most " + maxQuantityPerProduct + " of " + product.getName());
                 }
-                if(newQty > product.get().getStockQuantity() ){
-                    throw new OutOfStockException("Only " + product.get().getStockQuantity() + " available for " + product.get().getName());
+                if(newQty > product.getStockQuantity() ){
+                    throw new OutOfStockException("Only " + product.getStockQuantity() + " available for " + product.getName());
                 }
                 items.put(Sku, newQty);
             }
             else{
-                throw new OutOfStockException(product.get().getName() + " is out of Stock");
+                throw new OutOfStockException(product.getName() + " is out of Stock");
             }
-        }
     }
+
     public BigDecimal subTotal(){
         return items.entrySet().stream().map(entry -> {
             String sku = entry.getKey();
@@ -97,15 +92,9 @@ public class ShoppingCart {
         return cardNumber;
     }
 
-    public void setCardNumber(int cardNumber) {
-        this.cardNumber = cardNumber;
-    }
 
     public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 }

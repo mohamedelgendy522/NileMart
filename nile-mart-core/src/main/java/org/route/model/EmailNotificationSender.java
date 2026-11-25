@@ -16,7 +16,7 @@ public class EmailNotificationSender extends AbstractNotificationSender{
 
     @Override
     public String channel() {
-        return "Email";
+        return "EMAIL";
     }
 
     @Override
